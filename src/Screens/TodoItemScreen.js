@@ -1,8 +1,11 @@
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet, View, Text, Button, Dimensions } from "react-native";
 import { useState } from "react";
+import {FontAwesome, AntDesign} from '@expo/vector-icons'
 
 import { UICard } from "../Components/UI/Card";
 import { EditModal } from "../Components/EditModal";
+import { UIText } from "../Components/UI/Text";
+import { UIButton } from "../Components/UI/Button";
 
 import { THEME } from "../theme";
 
@@ -11,7 +14,7 @@ export const TodoItemScreen = ({ item, goBack, onRemove, onSave }) => {
 
   const saveHandler = ({ title }) => {
     onSave({ id: item.id, title });
-    setModal(false)
+    setModal(false);
   };
 
   return (
@@ -24,19 +27,27 @@ export const TodoItemScreen = ({ item, goBack, onRemove, onSave }) => {
       />
 
       <UICard inlineStyles={{ marginBottom: 20 }}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Button title="Ред." onPress={() => setModal(true)} />
+        <UIText isBold inlineStyles={styles.title}>
+          {item.title}
+        </UIText>
+
+        <UIButton onPress={() => setModal(true)}>
+          <FontAwesome name="edit" size={20} />
+        </UIButton>
       </UICard>
       <View style={styles.buttons}>
         <View style={styles.button}>
-          <Button title="Назад" onPress={goBack} color={THEME.GRAY_COLOR} />
+          <UIButton onPress={goBack} color={THEME.GRAY_COLOR}>
+          <AntDesign name="back" size={20} color="#fff"/>
+          </UIButton>
         </View>
         <View style={styles.button}>
-          <Button
-            title="Удалить"
+          <UIButton
             color={THEME.DANGER_COLOR}
             onPress={() => onRemove(item.id)}
-          />
+          >
+            <FontAwesome name="remove" size={20} />
+          </UIButton>
         </View>
       </View>
     </View>
@@ -49,7 +60,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   button: {
-    width: "40%",
+    width: Dimensions.get('window').width / 3,
   },
   title: {
     fontSize: 20,

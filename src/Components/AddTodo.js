@@ -1,5 +1,6 @@
+import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
-import { TextInput, View, Button, StyleSheet, Alert } from "react-native";
+import { TextInput, View, Button, StyleSheet, Alert, Keyboard } from "react-native";
 
 import { THEME } from "../theme";
 
@@ -10,6 +11,7 @@ export const AddTodo = ({ onSubmit }) => {
     const trimmedValue = value.trim()
     if (trimmedValue !== '') {
       setValue('')
+      Keyboard.dismiss()
       return onSubmit(trimmedValue)
     }
 
@@ -26,7 +28,10 @@ export const AddTodo = ({ onSubmit }) => {
         autoCorrect={false}
         autoCapitalize='words'
       />
-      <Button title="Добавить" onPress={() => pressHandler(value)} />
+
+      <AntDesign.Button name="pluscircleo" onPress={() => pressHandler(value)}>
+        Добавить
+      </AntDesign.Button>
     </View>
   );
 };
@@ -38,7 +43,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   input: {
-    width: "70%",
+    width: "60%",
     borderStyles: "solid",
     borderBottomColor: THEME.MAIN_COLOR,
     borderBottomWidth: 2,

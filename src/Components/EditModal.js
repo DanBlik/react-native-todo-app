@@ -1,18 +1,26 @@
-import { Modal, View, TextInput, Button, StyleSheet, Alert } from "react-native";
+import {
+  Modal,
+  View,
+  TextInput,
+  Button,
+  StyleSheet,
+  Alert,
+} from "react-native";
 import { useState } from "react";
 
+import { UIButton } from "./UI/Button";
 import { THEME } from "../theme";
 
 export const EditModal = ({ isVisible, onClose, value, onSave }) => {
-  const [title, setTitle] = useState(value)
+  const [title, setTitle] = useState(value);
 
   const saveHandler = () => {
     if (title.trim().length < 3) {
-      Alert.alert('Ошибка!', `Минимальная длина названия 3 символа`)
+      Alert.alert("Ошибка!", `Минимальная длина названия 3 символа`);
     } else {
-      onSave({title})
+      onSave({ title });
     }
-  }
+  };
 
   return (
     <Modal visible={isVisible} animationType="slide">
@@ -29,12 +37,11 @@ export const EditModal = ({ isVisible, onClose, value, onSave }) => {
         </View>
 
         <View style={s.buttons}>
-          <Button
-            title="Отменить"
-            onPress={onClose}
-            color={THEME.DANGER_COLOR}
-          />
-          <Button title="Сохранить" onPress={() => saveHandler()}/>
+          <UIButton onPress={onClose} color={THEME.DANGER_COLOR}>
+            Отменить
+          </UIButton>
+
+          <UIButton onPress={() => saveHandler()}>Сохранить</UIButton>
         </View>
       </View>
     </Modal>
@@ -54,6 +61,8 @@ const s = StyleSheet.create({
     borderBottomWidth: 2,
   },
   buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     width: "100%",
     marginTop: 10,
   },
