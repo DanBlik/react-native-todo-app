@@ -28,7 +28,7 @@ export default function App() {
   return (
     <ScreenState>
       <TodoState>
-        <SafeAreaView onLayout={onLayoutRootView}>
+        <SafeAreaView onLayout={onLayoutRootView} style={{flex: 1}}>
           <MainLayout />
         </SafeAreaView>
       </TodoState>

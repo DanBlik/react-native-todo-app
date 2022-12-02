@@ -18,7 +18,7 @@ export const MainLayout = () => {
   }
 
   return (
-    <View>
+    <View style={styles.mainWrap}>
       <NavBar title="Todo app!" />
       <View style={styles.container}>{content}</View>
     </View>
@@ -26,8 +26,12 @@ export const MainLayout = () => {
 };
 
 const styles = StyleSheet.create({
+  mainWrap: {
+    flex: 1
+  },
   container: {
     paddingHorizontal: THEME.PADDING_HORIZONTAL,
     paddingVertical: 20,
+    flex: 1
   },
 });

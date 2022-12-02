@@ -3,3 +3,9 @@ export const REMOVE_TODO_ITEM = 'REMOVE_TODO_ITEM'
 export const UPDATE_TODO_ITEM = 'UPDATE_TODO_ITEM'
 
 export const CHANGE_SCREEN = 'CHANGE_SCREEN'
+
+export const FETCH_TODO_ITEMS = 'FETCH_TODO_ITEMS'
+export const SHOW_LOADER = 'SHOW_LOADER'
+export const HIDE_LOADER = 'HIDE_LOADER'
+export const SHOW_ERROR = 'SHOW_ERROR'
+export const CLEAR_ERROR = 'CLEAR_ERROR'

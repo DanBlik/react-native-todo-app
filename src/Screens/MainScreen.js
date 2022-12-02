@@ -1,24 +1,39 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useCallback } from "react";
 import { StyleSheet, View, FlatList, Image, Dimensions } from "react-native";
 import { getStatusBarHeight } from "react-native-safearea-height";
 
 import { getOrientation } from "../../helpers/getOrientation";
 import { AddTodo } from "../Components/AddTodo";
 import { TodoItem } from "../Components/TodoItem";
+import { UILoader } from "../Components/UI/Loader";
 
 import { ScreenContext } from "../Context/Screen/screenContext";
 import { TodoContext } from "../Context/Todo/todoContext";
+import { UIText } from "../Components/UI/Text";
 
 import { THEME } from "../theme";
+import { UIButton } from "../Components/UI/Button";
 
 export const MainScreen = () => {
-  const { todoItems, addTodoItem, removeTodoItem } =
-    useContext(TodoContext);
+  const {
+    todoItems,
+    addTodoItem,
+    removeTodoItem,
+    fetchTodoItems,
+    isLoading,
+    error,
+  } = useContext(TodoContext);
   const { changeScreen } = useContext(ScreenContext);
 
   const [deviceWidth, setDeviceWidth] = useState(
     Dimensions.get("window").width - THEME.PADDING_HORIZONTAL * 2
   );
+
+  const loadTodoItems = useCallback(async () => fetchTodoItems(), [todoItems]);
+
+  useEffect(() => {
+    loadTodoItems();
+  }, []);
 
   useEffect(() => {
     const handler = Dimensions.addEventListener("change", () => {
@@ -35,6 +50,30 @@ export const MainScreen = () => {
 
     return () => handler?.remove();
   });
+
+  if (isLoading) {
+    return <UILoader />;
+  }
+
+  if (error) {
+    return (
+      <View style={{
+        justifyContent: "center",
+        alignItems: "center",
+        flex: 1
+      }}>
+        <UIText
+          inlineStyles={{
+            color: THEME.DANGER_COLOR,
+            paddingVertical: 20
+          }}
+        >
+          {error}
+        </UIText>
+        <UIButton onPress={loadTodoItems}>Повторить</UIButton>
+      </View>
+    );
+  }
 
   let content = (
     <View style={{ width: deviceWidth }}>

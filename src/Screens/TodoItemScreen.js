@@ -20,8 +20,8 @@ export const TodoItemScreen = () => {
 
   const [modal, setModal] = useState(false);
 
-  const saveHandler = ({ title }) => {
-    updateTodoItem({ id: item.id, title });
+  const saveHandler = async ({ title }) => {
+    await updateTodoItem({ id: item.id, title });
     setModal(false);
   };
 
