@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ToDoReactNativeApp",
-    "slug": "ToDoReactNativeApp",
+    "name": "ToDo App",
+    "slug": "ToDoReactNativeApp by DanBlik",
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
