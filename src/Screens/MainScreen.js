@@ -1,18 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { StyleSheet, View, FlatList, Image, Dimensions } from "react-native";
 import { getStatusBarHeight } from "react-native-safearea-height";
 
 import { getOrientation } from "../../helpers/getOrientation";
 import { AddTodo } from "../Components/AddTodo";
 import { TodoItem } from "../Components/TodoItem";
+
+import { ScreenContext } from "../Context/Screen/screenContext";
+import { TodoContext } from "../Context/Todo/todoContext";
+
 import { THEME } from "../theme";
 
-export const MainScreen = ({
-  addTodoItem,
-  removeTodoItem,
-  todoItems,
-  openTodoHandler,
-}) => {
+export const MainScreen = () => {
+  const { todoItems, addTodoItem, removeTodoItem } =
+    useContext(TodoContext);
+  const { changeScreen } = useContext(ScreenContext);
+
   const [deviceWidth, setDeviceWidth] = useState(
     Dimensions.get("window").width - THEME.PADDING_HORIZONTAL * 2
   );
@@ -42,7 +45,7 @@ export const MainScreen = ({
           <TodoItem
             item={item}
             onRemove={removeTodoItem}
-            onOpen={openTodoHandler}
+            onOpen={changeScreen}
           />
         )}
       />

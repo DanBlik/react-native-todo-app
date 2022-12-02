@@ -1,6 +1,6 @@
-import { StyleSheet, View, Text, Button, Dimensions } from "react-native";
-import { useState } from "react";
-import {FontAwesome, AntDesign} from '@expo/vector-icons'
+import { StyleSheet, View, Dimensions } from "react-native";
+import { useState, useContext } from "react";
+import { FontAwesome, AntDesign } from "@expo/vector-icons";
 
 import { UICard } from "../Components/UI/Card";
 import { EditModal } from "../Components/EditModal";
@@ -9,11 +9,19 @@ import { UIButton } from "../Components/UI/Button";
 
 import { THEME } from "../theme";
 
-export const TodoItemScreen = ({ item, goBack, onRemove, onSave }) => {
+import { ScreenContext } from "../Context/Screen/screenContext";
+import { TodoContext } from "../Context/Todo/todoContext";
+
+export const TodoItemScreen = () => {
+  const { todoItems, removeTodoItem, updateTodoItem } = useContext(TodoContext);
+  const { todoId, changeScreen } = useContext(ScreenContext);
+
+  const item = todoItems.find((el) => el.id === todoId);
+
   const [modal, setModal] = useState(false);
 
   const saveHandler = ({ title }) => {
-    onSave({ id: item.id, title });
+    updateTodoItem({ id: item.id, title });
     setModal(false);
   };
 
@@ -37,14 +45,14 @@ export const TodoItemScreen = ({ item, goBack, onRemove, onSave }) => {
       </UICard>
       <View style={styles.buttons}>
         <View style={styles.button}>
-          <UIButton onPress={goBack} color={THEME.GRAY_COLOR}>
-          <AntDesign name="back" size={20} color="#fff"/>
+          <UIButton onPress={() => changeScreen(null)} color={THEME.GRAY_COLOR}>
+            <AntDesign name="back" size={20} color="#fff" />
           </UIButton>
         </View>
         <View style={styles.button}>
           <UIButton
             color={THEME.DANGER_COLOR}
-            onPress={() => onRemove(item.id)}
+            onPress={() => removeTodoItem(item.id, item.title)}
           >
             <FontAwesome name="remove" size={20} />
           </UIButton>
@@ -60,7 +68,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   button: {
-    width: Dimensions.get('window').width / 3,
+    width: Dimensions.get("window").width / 3,
   },
   title: {
     fontSize: 20,

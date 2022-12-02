@@ -22,6 +22,11 @@ export const EditModal = ({ isVisible, onClose, value, onSave }) => {
     }
   };
 
+  const cancelHandle = () => {
+    setTitle(value)
+    onClose()
+  }
+
   return (
     <Modal visible={isVisible} animationType="slide">
       <View style={s.wrap}>
@@ -37,7 +42,7 @@ export const EditModal = ({ isVisible, onClose, value, onSave }) => {
         </View>
 
         <View style={s.buttons}>
-          <UIButton onPress={onClose} color={THEME.DANGER_COLOR}>
+          <UIButton onPress={cancelHandle} color={THEME.DANGER_COLOR}>
             Отменить
           </UIButton>
 

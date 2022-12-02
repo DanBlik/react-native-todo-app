@@ -6,7 +6,7 @@ export const TodoItem = ({ item, onRemove, onOpen }) => {
     <TouchableOpacity
       activeOpacity={0.5}
       onPress={() => onOpen(item.id)}
-      onLongPress={() => onRemove(item.id)}
+      onLongPress={() => onRemove(item.id, item.title)}
     >
       <View style={s.todoItem}>
         <UIText isBold>{item.title}</UIText>
