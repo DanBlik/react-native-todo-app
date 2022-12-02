@@ -15,6 +15,7 @@ import {
 import { TodoContext } from "./todoContext";
 import { todoReducer } from "./todoReducer";
 import { ScreenContext } from "../Screen/screenContext";
+import { Http } from "../../httpClass";
 
 export const TodoState = ({ children }) => {
   const { changeScreen } = useContext(ScreenContext);
@@ -28,18 +29,10 @@ export const TodoState = ({ children }) => {
   const [state, dispatch] = useReducer(todoReducer, initialState);
 
   const addTodoItem = async (title) => {
-    const response = await fetch(
+    const data = await Http.post(
       "https://reactnative-todo-app-9d8a1-default-rtdb.firebaseio.com/todoItems.json",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ title }),
-      }
+      { title }
     );
-
-    const data = await response.json();
 
     dispatch({ type: ADD_TODO_ITEM, title, id: data.name });
   };
@@ -54,14 +47,9 @@ export const TodoState = ({ children }) => {
           onPress: async () => {
             try {
               clearError();
-              await fetch(
+
+              await Http.delete(
                 `https://reactnative-todo-app-9d8a1-default-rtdb.firebaseio.com/todoItems/${id}.json`,
-                {
-                  method: "DELETE",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                }
               );
 
               changeScreen(null);
@@ -79,14 +67,9 @@ export const TodoState = ({ children }) => {
   const updateTodoItem = async ({ id, title }) => {
     try {
       clearError();
-      await fetch(
+      await Http.patch(
         `https://reactnative-todo-app-9d8a1-default-rtdb.firebaseio.com/todoItems/${id}.json`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        { title }
       );
 
       dispatch({ type: UPDATE_TODO_ITEM, title, id });
@@ -105,17 +88,11 @@ export const TodoState = ({ children }) => {
     try {
       clearError();
       showLoader();
-      const response = await fetch(
+
+      const data = await Http.get(
         "https://reactnative-todo-app-9d8a1-default-rtdb.firebaseio.com/todoItems.json",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
       );
 
-      const data = await response.json();
       const todoItems = Object.keys(data).map((key) => ({
         ...data[key],
         id: key,
